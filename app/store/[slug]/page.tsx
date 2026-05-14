@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { products } from "@/lib/db/schema";
 import { formatPrice, gradientForSlug } from "@/lib/utils";
+import { BuyButton } from "./_components/buy-button";
 
 export const dynamic = "force-dynamic";
 
@@ -149,26 +150,7 @@ export default async function ProductDetailPage({
                 One-time. Instant download after payment.
               </div>
 
-              <button
-                type="button"
-                disabled
-                className="btn-primary w-full mt-6 text-base disabled:opacity-60"
-                title="Checkout opens in Phase 4"
-              >
-                Buy now
-                <svg
-                  className="size-5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5l7 7-7 7" />
-                </svg>
-              </button>
+              <BuyButton productId={product.id} />
               <p className="mt-3 text-xs text-steel-500 text-center">
                 Secure payment by Stripe · Card / Apple Pay / Google Pay
               </p>

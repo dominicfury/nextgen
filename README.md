@@ -15,11 +15,9 @@ This README covers local setup. The build is shipped in phases — see `Phase st
 | 1     | Foundation: Next.js, Tailwind, full Drizzle schema, design tokens, deploy skeleton | **shipped** |
 | 2     | Catalog: storefront browse + product detail + admin product CRUD | **shipped** |
 | 3     | Files: private R2 bucket, admin upload, presigned downloads     | **shipped** |
-| 4     | Payments: Stripe Checkout + webhook → `download_grants`         | pending  |
-| 5     | Admin auth (magic-link via Resend)                              | pending  |
-| 6     | Polish: search/filter, dashboard stats, receipts, rate limiting | pending  |
-
-> **Admin is open by default until Phase 5.** Anyone who knows `/admin` can manage products. Don't deploy Phase 2 to production without first adding the middleware gate or a basic-auth shim.
+| 4     | Payments: Stripe Checkout + webhook → `download_grants`         | **shipped** |
+| 5     | Admin auth (magic-link via Resend)                              | **shipped** |
+| 6     | Polish: search/filter, dashboard stats, receipts, rate limiting | **shipped** |
 
 ---
 

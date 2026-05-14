@@ -3,6 +3,7 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { downloadGrants, productFiles } from "@/lib/db/schema";
 import { presignGet } from "@/lib/r2";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
 
 // Public, token-gated download endpoint.
 //
@@ -25,11 +26,29 @@ function notFound() {
 }
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ token: string }> },
 ) {
   const { token } = await params;
   if (!token || token.length < 32) return notFound();
+
+  // Rate limit by IP. 20 downloads / minute is generous for a real user but
+  // prevents enumeration sprays.
+  const rl = rateLimit(clientKey(req, "download"), {
+    limit: 20,
+    windowMs: 60_000,
+  });
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Too many requests. Try again shortly." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(rl.retryAfterMs / 1000)),
+        },
+      },
+    );
+  }
 
   const [grant] = await db
     .select()

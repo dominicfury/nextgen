@@ -1,8 +1,12 @@
 import Link from "next/link";
 import type { Route } from "next";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { getCurrentAdmin } from "@/lib/auth";
+import { SignOutButton } from "../_components/sign-out-button";
 
 export const metadata = { title: "Admin" };
+export const dynamic = "force-dynamic";
 
 const NAV: Array<{ href: Route; label: string }> = [
   { href: "/admin", label: "Dashboard" },
@@ -11,15 +15,19 @@ const NAV: Array<{ href: Route; label: string }> = [
   { href: "/admin/consultations", label: "Consultations" },
 ];
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Real auth check (middleware only verifies cookie presence). If the
+  // cookie points at a deleted/expired session, this catches it.
+  const admin = await getCurrentAdmin();
+  if (!admin) redirect("/admin/login");
+
   return (
     <div className="min-h-dvh grid grid-cols-1 lg:grid-cols-[260px_1fr] bg-paper-50">
-      {/* Sidebar */}
-      <aside className="border-b lg:border-b-0 lg:border-r border-steel-200 bg-white">
+      <aside className="border-b lg:border-b-0 lg:border-r border-steel-200 bg-white lg:flex lg:flex-col">
         <div className="px-5 py-4 flex items-center justify-between lg:block">
           <Link href="/admin" className="flex items-center gap-3">
             <Image src="/logo.png" alt="NextGen" width={48} height={48} />
@@ -42,11 +50,12 @@ export default function AdminLayout({
           ))}
         </nav>
 
-        <div className="hidden lg:block mx-3 mt-4 p-3 rounded-lg
-                        bg-blaze-50 border border-blaze-200 text-blaze-700 text-xs leading-relaxed">
-          <strong className="block font-bold mb-0.5">Heads up</strong>
-          Admin auth ships in Phase 5. This area is currently open — protect
-          before deploying.
+        <div className="hidden lg:block lg:mt-auto p-4 border-t border-steel-200">
+          <div className="text-xs text-steel-500">Signed in as</div>
+          <div className="font-semibold text-midnight-900 text-sm truncate">
+            {admin.email}
+          </div>
+          <SignOutButton />
         </div>
       </aside>
 

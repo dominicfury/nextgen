@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ResendForm } from "./_components/resend-form";
 
 export const metadata = { title: "My downloads" };
 
@@ -18,27 +19,17 @@ export default function DownloadsPage() {
         </Link>
       </header>
 
-      <div className="px-5 sm:px-8 py-16 max-w-2xl mx-auto">
+      <div className="px-5 sm:px-8 py-12 sm:py-16 max-w-2xl mx-auto">
         <h1 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-midnight-900">
           Resend my downloads
         </h1>
-        <p className="mt-3 text-steel-600">
+        <p className="mt-3 text-steel-600 text-base sm:text-lg">
           Enter your email and we'll send fresh download links for every order
-          you've placed. Coming online in Phase 6.
+          tied to that address.
         </p>
 
-        <div className="mt-8 card p-6">
-          <form className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="email"
-              disabled
-              placeholder="you@example.com"
-              className="flex-1 bg-paper-100 border border-steel-200 rounded-lg px-3.5 py-2.5 min-h-12 text-midnight-900 placeholder:text-steel-400"
-            />
-            <button disabled type="button" className="btn-primary disabled:opacity-60">
-              Send links
-            </button>
-          </form>
+        <div className="mt-8">
+          <ResendForm />
         </div>
       </div>
     </main>
