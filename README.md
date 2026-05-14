@@ -13,11 +13,13 @@ This README covers local setup. The build is shipped in phases — see `Phase st
 | Phase | What it adds                                                    | Status   |
 | ----- | --------------------------------------------------------------- | -------- |
 | 1     | Foundation: Next.js, Tailwind, full Drizzle schema, design tokens, deploy skeleton | **shipped** |
-| 2     | Catalog: storefront browse + product detail + admin product CRUD | pending  |
+| 2     | Catalog: storefront browse + product detail + admin product CRUD | **shipped** |
 | 3     | Files: private R2 bucket, admin upload, presigned downloads     | pending  |
 | 4     | Payments: Stripe Checkout + webhook → `download_grants`         | pending  |
 | 5     | Admin auth (magic-link via Resend)                              | pending  |
 | 6     | Polish: search/filter, dashboard stats, receipts, rate limiting | pending  |
+
+> **Admin is open by default until Phase 5.** Anyone who knows `/admin` can manage products. Don't deploy Phase 2 to production without first adding the middleware gate or a basic-auth shim.
 
 ---
 
@@ -126,6 +128,7 @@ pnpm db:generate       # generate new migrations from schema changes
 pnpm db:migrate        # apply migrations to the DB
 pnpm db:studio         # open Drizzle Studio against your DB
 pnpm seed:admin <email>  # seed the first admin (Phase 5+)
+pnpm seed:products     # populate the catalog with sample tunes (dev only)
 ```
 
 ---

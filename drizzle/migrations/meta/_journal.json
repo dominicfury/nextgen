@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1778775033035,
+      "tag": "0000_free_harry_osborn",
+      "breakpoints": true
+    }
+  ]
+}
