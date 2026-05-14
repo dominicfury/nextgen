@@ -190,6 +190,34 @@ export const adminSessions = sqliteTable(
   }),
 );
 
+// ─── Consultation requests ────────────────────────────────────────────────────
+// Lead-capture from /consultation. Phase 5/6 will add email notifications.
+
+export const consultationRequests = sqliteTable(
+  "consultation_requests",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull().default(""),
+    vehicleMake: text("vehicle_make").notNull().default(""),
+    vehicleModel: text("vehicle_model").notNull().default(""),
+    vehicleYear: text("vehicle_year").notNull().default(""),
+    engine: text("engine").notNull().default(""),
+    message: text("message").notNull(),
+    status: text("status", { enum: ["new", "contacted", "closed"] })
+      .notNull()
+      .default("new"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+  },
+  (t) => ({
+    statusIdx: index("consultation_requests_status_idx").on(t.status),
+    createdIdx: index("consultation_requests_created_idx").on(t.createdAt),
+  }),
+);
+
 // ─── Type helpers ─────────────────────────────────────────────────────────────
 
 export type Product = typeof products.$inferSelect;
@@ -204,3 +232,5 @@ export type NewDownloadGrant = typeof downloadGrants.$inferInsert;
 export type Admin = typeof admins.$inferSelect;
 export type AdminLoginToken = typeof adminLoginTokens.$inferSelect;
 export type AdminSession = typeof adminSessions.$inferSelect;
+export type ConsultationRequest = typeof consultationRequests.$inferSelect;
+export type NewConsultationRequest = typeof consultationRequests.$inferInsert;

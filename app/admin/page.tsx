@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { eq, count } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { products } from "@/lib/db/schema";
+import { products, consultationRequests } from "@/lib/db/schema";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [publishedRows, draftRows] = await Promise.all([
+  const [publishedRows, draftRows, newConsultRows] = await Promise.all([
     db
       .select({ n: count() })
       .from(products)
@@ -15,10 +15,15 @@ export default async function AdminDashboardPage() {
       .select({ n: count() })
       .from(products)
       .where(eq(products.status, "draft" as const)),
+    db
+      .select({ n: count() })
+      .from(consultationRequests)
+      .where(eq(consultationRequests.status, "new" as const)),
   ]);
 
   const published = publishedRows[0]?.n ?? 0;
   const drafts = draftRows[0]?.n ?? 0;
+  const newConsults = newConsultRows[0]?.n ?? 0;
 
   return (
     <div className="p-5 sm:p-8 max-w-5xl">
@@ -29,9 +34,14 @@ export default async function AdminDashboardPage() {
         Catalog at a glance. Revenue + top sellers ship in Phase 6.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Stat label="Published products" value={published} accent="blaze" />
         <Stat label="Drafts" value={drafts} accent="volt" />
+        <Stat
+          label="New consultations"
+          value={newConsults}
+          accent="midnight"
+        />
         <Stat label="Orders" value="—" hint="ships Phase 4" accent="midnight" />
       </div>
 

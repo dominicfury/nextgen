@@ -10,8 +10,8 @@ export default function HomePage() {
           <Image
             src="/logo.png"
             alt="NextGen Diesel Tuning"
-            width={90}
-            height={90}
+            width={180}
+            height={180}
             priority
           />
         </div>
@@ -21,6 +21,12 @@ export default function HomePage() {
             className="px-3 py-2 rounded-md text-midnight-700 font-medium hover:bg-white hover:shadow-sm transition-all"
           >
             Store
+          </Link>
+          <Link
+            href="/consultation"
+            className="px-3 py-2 rounded-md text-midnight-700 font-medium hover:bg-white hover:shadow-sm transition-all"
+          >
+            Consult
           </Link>
           <Link
             href="/downloads"
@@ -33,11 +39,6 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="px-5 sm:px-8 pt-8 pb-20 sm:pt-20 sm:pb-32 max-w-5xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blaze-50 border border-blaze-200 text-blaze-700 text-xs font-semibold mb-6">
-          <span className="size-1.5 rounded-full bg-blaze-500 animate-pulse" />
-          Pre-made tunes · instant download
-        </div>
-
         <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-black leading-[0.95] tracking-[var(--tracking-display)] text-midnight-900">
           Diesel power,
           <br />
@@ -51,7 +52,7 @@ export default function HomePage() {
           once, download forever. No subscriptions, no waiting.
         </p>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Link href="/store" className="btn-primary text-base">
             Browse files
             <svg
@@ -66,6 +67,9 @@ export default function HomePage() {
               <path d="M5 12h14" />
               <path d="M12 5l7 7-7 7" />
             </svg>
+          </Link>
+          <Link href="/consultation" className="btn-secondary text-base">
+            Book a consultation
           </Link>
         </div>
 
@@ -87,6 +91,64 @@ export default function HomePage() {
             accent="midnight"
           />
         </div>
+
+        {/* Consultation pitch */}
+        <section className="mt-16 sm:mt-24 relative overflow-hidden rounded-2xl bg-midnight-900 text-white p-8 sm:p-12">
+          <div
+            className="absolute -top-24 -right-24 size-72 rounded-full opacity-50 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255,106,26,0.55) 0%, transparent 70%)",
+            }}
+            aria-hidden
+          />
+          <div
+            className="absolute -bottom-24 -left-24 size-72 rounded-full opacity-30 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(6,194,255,0.55) 0%, transparent 70%)",
+            }}
+            aria-hidden
+          />
+
+          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold mb-5">
+                <span className="size-1.5 rounded-full bg-blaze-400" />
+                1-on-1 with the shop
+              </div>
+              <h2 className="font-display text-3xl sm:text-5xl font-black tracking-tight leading-[1.05]">
+                Need a custom build dialed in?
+              </h2>
+              <p className="mt-4 text-steel-200 text-base sm:text-lg max-w-2xl">
+                Don't see your setup in the catalog? Got problem codes nobody
+                can crack? Book a sit-down with our team for custom tuning,
+                diagnostics, or a complete build plan.
+              </p>
+            </div>
+            <Link
+              href="/consultation"
+              className="inline-flex items-center justify-center gap-2 min-h-12 px-7 rounded-lg
+                         bg-blaze-500 hover:bg-blaze-400 text-white font-bold tracking-tight
+                         transition-all duration-150 active:scale-[0.98] whitespace-nowrap
+                         shadow-[var(--shadow-blaze)]"
+            >
+              Book consultation
+              <svg
+                className="size-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        </section>
       </section>
 
       <footer className="border-t border-steel-200 mt-10 px-5 sm:px-8 py-8 text-sm text-steel-500 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">

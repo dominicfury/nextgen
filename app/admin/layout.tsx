@@ -8,6 +8,7 @@ const NAV: Array<{ href: Route; label: string }> = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/consultations", label: "Consultations" },
 ];
 
 export default function AdminLayout({
