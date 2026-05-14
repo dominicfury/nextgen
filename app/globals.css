@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ──────────────────────────────────────────────────────── */
+/* Automotive / performance-shop feel: deep neutrals, electric-blue accent,    */
+/* safety-orange for warnings & secondary CTAs. High contrast, bold type.      */
+
+@theme {
+  /* Brand surfaces */
+  --color-ink-50:  #f5f7fa;
+  --color-ink-100: #e6ebf1;
+  --color-ink-200: #c2ccd9;
+  --color-ink-300: #8d99a8;
+  --color-ink-400: #5a6473;
+  --color-ink-500: #3a4250;
+  --color-ink-600: #232934;
+  --color-ink-700: #161b24;
+  --color-ink-800: #0d1117;
+  --color-ink-900: #07090d;
+  --color-ink-950: #03050a;
+
+  /* Accent — electric blue */
+  --color-volt-50:  #e6faff;
+  --color-volt-100: #b8f1ff;
+  --color-volt-200: #7ce5ff;
+  --color-volt-300: #38d4ff;
+  --color-volt-400: #06c2ff;
+  --color-volt-500: #00a5e6;
+  --color-volt-600: #0086c0;
+  --color-volt-700: #006a99;
+  --color-volt-800: #00547a;
+  --color-volt-900: #003a55;
+
+  /* Warning / secondary — safety orange (used sparingly) */
+  --color-flame-400: #ff8a3d;
+  --color-flame-500: #ff6a1a;
+  --color-flame-600: #e44d00;
+
+  /* Status */
+  --color-success: #22c55e;
+  --color-danger:  #ef4444;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas,
+    monospace;
+
+  /* Tracking for display headlines */
+  --tracking-display: -0.025em;
+
+  /* Radii */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+
+  /* Shadows tuned for dark surfaces */
+  --shadow-glow: 0 0 0 1px rgba(6, 194, 255, 0.35),
+                 0 8px 32px -8px rgba(6, 194, 255, 0.45);
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04),
+                 0 12px 32px -16px rgba(0, 0, 0, 0.6);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--color-ink-950);
+  color: var(--color-ink-50);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  /* Subtle vignette + grid for that workshop feel. */
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(6, 194, 255, 0.08) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--color-ink-950) 0%,
+      var(--color-ink-900) 100%
+    );
+  background-attachment: fixed;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--color-volt-500);
+  color: var(--color-ink-950);
+}
+
+/* Focus ring — visible, not ugly. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-volt-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Component primitives ──────────────────────────────────────────────── */
+/* Keep these to the truly reusable few. Everything else is Tailwind utilities. */
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           min-h-12 px-6 rounded-lg
+           bg-volt-400 text-ink-950 font-semibold tracking-tight
+           transition-all duration-150
+           hover:bg-volt-300 hover:shadow-[var(--shadow-glow)]
+           active:scale-[0.98]
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           min-h-12 px-6 rounded-lg
+           bg-ink-700 text-ink-50 font-semibold tracking-tight
+           border border-ink-500
+           transition-all duration-150
+           hover:bg-ink-600 hover:border-ink-400
+           active:scale-[0.98]
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .card {
+    @apply bg-ink-800/80 backdrop-blur rounded-xl
+           border border-ink-600
+           shadow-[var(--shadow-card)];
+  }
+}
