@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { products } from "@/lib/db/schema";
+import { productFiles, products } from "@/lib/db/schema";
 import { ProductForm } from "../../_components/product-form";
 import { updateProduct, type ProductFormState } from "../../actions";
+import { FileManager } from "./_components/file-manager";
 
 export const metadata = { title: "Edit product" };
 export const dynamic = "force-dynamic";
@@ -18,11 +19,14 @@ export default async function EditProductPage({
   const id = Number.parseInt(idStr, 10);
   if (!Number.isFinite(id)) notFound();
 
-  const rows = await db
-    .select()
-    .from(products)
-    .where(eq(products.id, id))
-    .limit(1);
+  const [rows, fileRows] = await Promise.all([
+    db.select().from(products).where(eq(products.id, id)).limit(1),
+    db
+      .select()
+      .from(productFiles)
+      .where(eq(productFiles.productId, id))
+      .orderBy(desc(productFiles.version)),
+  ]);
 
   const product = rows[0];
   if (!product) notFound();
@@ -49,12 +53,17 @@ export default async function EditProductPage({
         </h1>
         <p className="mt-2 text-sm text-steel-500">{product.slug}</p>
       </div>
+
       <div className="card p-5 sm:p-8">
         <ProductForm
           action={boundUpdate}
           initial={product}
           submitLabel="Save changes"
         />
+      </div>
+
+      <div className="mt-8 card p-5 sm:p-8">
+        <FileManager productId={id} files={fileRows} />
       </div>
     </div>
   );

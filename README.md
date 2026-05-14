@@ -14,7 +14,7 @@ This README covers local setup. The build is shipped in phases — see `Phase st
 | ----- | --------------------------------------------------------------- | -------- |
 | 1     | Foundation: Next.js, Tailwind, full Drizzle schema, design tokens, deploy skeleton | **shipped** |
 | 2     | Catalog: storefront browse + product detail + admin product CRUD | **shipped** |
-| 3     | Files: private R2 bucket, admin upload, presigned downloads     | pending  |
+| 3     | Files: private R2 bucket, admin upload, presigned downloads     | **shipped** |
 | 4     | Payments: Stripe Checkout + webhook → `download_grants`         | pending  |
 | 5     | Admin auth (magic-link via Resend)                              | pending  |
 | 6     | Polish: search/filter, dashboard stats, receipts, rate limiting | pending  |
@@ -101,9 +101,38 @@ Create a production database and grab the URL + token. Run `pnpm db:migrate` aga
    ```
 
 ### Cloudflare R2 (Phase 3)
-1. Create a **private** bucket (no public access).
-2. Create an API token with read+write scoped to that bucket. You'll get an Access Key ID and Secret.
-3. The endpoint is `https://<account-id>.r2.cloudflarestorage.com`.
+
+1. **Create the bucket.** Cloudflare dashboard → R2 → *Create bucket*. Name it (e.g. `nextgen-diesel-files`). Leave it **private** — no public access.
+2. **Create an API token** scoped to that bucket. R2 → *Manage R2 API Tokens* → *Create API token*. Permissions: *Object Read & Write*, scoped to your bucket. Save the **Access Key ID** and **Secret Access Key**.
+3. **Grab your Account ID.** Visible in the R2 dashboard sidebar or under the *Account home* card on the main Cloudflare dashboard.
+4. **Configure CORS on the bucket.** This is what people forget — without it the browser→R2 direct upload will fail in dev and prod. In the R2 bucket settings → *Settings* → *CORS Policy*, paste:
+
+   ```json
+   [
+     {
+       "AllowedOrigins": [
+         "http://localhost:3000",
+         "https://your-domain.vercel.app"
+       ],
+       "AllowedMethods": ["GET", "PUT", "HEAD"],
+       "AllowedHeaders": ["*"],
+       "ExposeHeaders": ["ETag"],
+       "MaxAgeSeconds": 3600
+     }
+   ]
+   ```
+
+   Replace the second origin with your actual production URL. Add more origins (preview branches, custom domain) as needed.
+
+5. **Fill `.env.local`** (and Vercel env vars):
+
+   ```env
+   R2_ACCOUNT_ID=...
+   R2_ACCESS_KEY_ID=...
+   R2_SECRET_ACCESS_KEY=...
+   R2_BUCKET=nextgen-diesel-files
+   # R2_ENDPOINT= (leave blank unless you front the bucket with a custom domain)
+   ```
 
 ### Resend (Phase 5/6)
 1. Verify your sending domain (SPF + DKIM records).

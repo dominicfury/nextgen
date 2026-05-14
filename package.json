@@ -16,6 +16,8 @@
     "seed:products": "tsx scripts/seed-products.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1045.0",
+    "@aws-sdk/s3-request-presigner": "^3.1045.0",
     "@libsql/client": "^0.14.0",
     "drizzle-orm": "^0.36.4",
     "next": "^15.1.4",
