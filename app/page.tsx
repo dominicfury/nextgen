@@ -4,36 +4,25 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="relative">
-      {/* Top bar */}
-      <header className="px-5 sm:px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center">
+      {/* Top bar — logo scales down on phones so nav fits */}
+      <header className="px-5 sm:px-8 py-4 flex items-center justify-between gap-3">
+        <div className="flex items-center shrink-0">
           <Image
             src="/logo.png"
             alt="NextGen Diesel Tuning"
             width={180}
             height={180}
             priority
+            className="size-24 sm:size-40 lg:size-44 w-auto"
           />
         </div>
-        <nav className="flex items-center gap-1 text-sm">
-          <Link
-            href="/store"
-            className="px-3 py-2 rounded-md text-midnight-700 font-medium hover:bg-white hover:shadow-sm transition-all"
-          >
-            Store
-          </Link>
-          <Link
-            href="/consultation"
-            className="px-3 py-2 rounded-md text-midnight-700 font-medium hover:bg-white hover:shadow-sm transition-all"
-          >
-            Consult
-          </Link>
-          <Link
-            href="/downloads"
-            className="px-3 py-2 rounded-md text-midnight-700 font-medium hover:bg-white hover:shadow-sm transition-all"
-          >
-            My downloads
-          </Link>
+        <nav className="flex items-center gap-1.5 sm:gap-2 text-sm">
+          <NavButton href="/store">Store</NavButton>
+          <NavButton href="/consultation">Consult</NavButton>
+          <NavButton href="/downloads">
+            <span className="sm:hidden">Downloads</span>
+            <span className="hidden sm:inline">My downloads</span>
+          </NavButton>
         </nav>
       </header>
 
@@ -158,6 +147,29 @@ export default function HomePage() {
         </span>
       </footer>
     </main>
+  );
+}
+
+function NavButton({
+  href,
+  children,
+}: {
+  href: "/store" | "/consultation" | "/downloads";
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center whitespace-nowrap min-h-11 px-3 sm:px-4 rounded-lg
+                 bg-white text-midnight-800 font-semibold tracking-tight
+                 border border-steel-300
+                 shadow-[0_1px_0_0_rgba(15,18,36,0.04)]
+                 transition-all duration-150
+                 hover:border-blaze-400 hover:text-blaze-600
+                 active:scale-[0.98]"
+    >
+      {children}
+    </Link>
   );
 }
 

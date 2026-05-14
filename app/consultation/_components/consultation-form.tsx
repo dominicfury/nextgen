@@ -79,7 +79,7 @@ export function ConsultationForm() {
         placeholder="(555) 555-5555"
       />
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <Field
           label="Year"
           name="vehicleYear"

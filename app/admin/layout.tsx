@@ -33,9 +33,9 @@ export default function AdminLayout({
             <Link
               key={item.href}
               href={item.href}
-              className="px-3 py-2 rounded-md text-sm text-midnight-700 font-medium
+              className="inline-flex items-center px-3 min-h-11 rounded-md text-sm text-midnight-700 font-medium
                          hover:bg-paper-100 hover:text-blaze-600
-                         whitespace-nowrap lg:block"
+                         whitespace-nowrap lg:flex lg:w-full"
             >
               {item.label}
             </Link>

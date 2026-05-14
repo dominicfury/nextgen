@@ -108,9 +108,10 @@ function Pill({
     <Link
       href={href}
       className={
-        active
-          ? "px-3 py-1.5 rounded-full text-sm font-bold bg-midnight-700 text-white shadow-sm"
-          : "px-3 py-1.5 rounded-full text-sm font-medium bg-white text-midnight-700 hover:bg-paper-100 border border-steel-200"
+        "inline-flex items-center min-h-10 px-3.5 rounded-full text-sm transition-colors " +
+        (active
+          ? "font-bold bg-midnight-700 text-white shadow-sm"
+          : "font-medium bg-white text-midnight-700 hover:bg-paper-100 border border-steel-200")
       }
     >
       {children}
