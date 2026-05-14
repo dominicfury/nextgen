@@ -4,16 +4,16 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="relative">
-      {/* Top bar — logo scales down on phones so nav fits */}
-      <header className="px-5 sm:px-8 py-4 flex items-center justify-between gap-3">
+      {/* Top bar — header wraps on small screens so the logo can stay big */}
+      <header className="px-5 sm:px-8 pt-4 pb-2 sm:py-4 flex items-center justify-between flex-wrap gap-x-4 gap-y-3">
         <div className="flex items-center shrink-0">
           <Image
             src="/logo.png"
             alt="NextGen Diesel Tuning"
-            width={180}
-            height={180}
+            width={260}
+            height={260}
             priority
-            className="size-24 sm:size-40 lg:size-44 w-auto"
+            className="size-36 sm:size-52 lg:size-60 w-auto"
           />
         </div>
         <nav className="flex items-center gap-1.5 sm:gap-2 text-sm">
